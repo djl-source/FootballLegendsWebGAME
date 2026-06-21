@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Penalty Legends</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+
+body{
+
+margin:0;
+height:100vh;
+background:
+radial-gradient(circle at top,#164f9c,#03152b 60%),
+linear-gradient(#061b3a,#0b6623);
+
+font-family:Arial,Helvetica,sans-serif;
+
+color:white;
+
+text-align:center;
+
+overflow:hidden;
+
+}
+
+
+
+#game{
+
+height:100vh;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:flex-start;
+
+padding-top:10px;
+
+}
+
+
+
+h1{
+
+font-size:25px;
+
+margin:5px;
+
+color:#ffe600;
+
+text-shadow:
+0 0 10px #ffae00,
+0 0 30px #ffae00;
+
+}
+
+
+
+
+#teams{
+
+margin-top:5px;
+
+font-size:22px;
+
+font-weight:bold;
+
+background:#ffffff22;
+
+backdrop-filter:blur(8px);
+
+padding:8px 20px;
+
+border-radius:20px;
+
+}
+
+
+
+
+#score{
+
+font-size:20px;
+
+font-weight:bold;
+
+margin:8px;
+
+background:#0008;
+
+padding:8px 25px;
+
+border-radius:25px;
+
+box-shadow:0 0 20px #000;
+
+}
+
+
+
+
+#timer{
+
+font-size:26px;
+
+font-weight:bold;
+
+color:#ffe600;
+
+height:35px;
+
+text-shadow:0 0 15px yellow;
+
+}
+
+
+
+
+
+#stadium{
+
+position:relative;
+
+width:350px;
+
+height:300px;
+
+margin:8px;
+
+
+background:
+
+linear-gradient(
+90deg,
+#1d7a2c 50%,
+#218b35 50%
+);
+
+
+border:5px solid white;
+
+border-radius:18px;
+
+box-shadow:
+0 0 20px #00ff66,
+inset 0 0 30px #003b10;
+
+
+overflow:hidden;
+
+}
+
+
+
+
+#stadium:after{
+
+content:"";
+
+position:absolute;
+
+left:50%;
+top:0;
+
+width:3px;
+
+height:100%;
+
+background:white;
+
+opacity:.5;
+
+}
+
+.goal{
+
+position:absolute;
+
+top:8px;
+
+left:35px;
+
+width:270px;
+
+height:135px;
+
+border:6px solid white;
+
+background:#ffffff18;
+
+box-shadow:
+0 0 25px white;
+
+}
+
+.net{
+
+width:100%;
+
+height:100%;
+
+background:
+
+repeating-linear-gradient(
+45deg,
+transparent,
+transparent 8px,
+#ffffff55 9px
+);
+
+}
+
+
+
+
+#keeper{
+
+position:absolute;
+
+top:60px;
+left:140px;
+font-size:60px;
+
+transition:.35s;
+
+filter:drop-shadow(0 0 10px black);
+
+}
+
+
+
+
+#ball{
+
+position:absolute;
+
+bottom:20px;
+
+left:145px;
+
+font-size:40px;
+
+transition:.7s;
+
+filter:
+drop-shadow(0 0 15px white);
+
+}
+
+
+
+
+
+button{
+
+font-size:18px;
+
+font-weight:bold;
+
+padding:14px 25px;
+
+margin:8px;
+
+border-radius:17px;
+
+border:none;
+
+cursor:pointer;
+
+color:#111;
+
+
+background:
+linear-gradient(#ffe900,#ff9d00);
+
+
+box-shadow:
+0 5px 0 #9b5d00,
+0 0 20px #ffbb00;
+
+
+transition:.15s;
+
+}
+
+
+
+
+button:active{
+
+transform:translateY(5px);
+
+box-shadow:none;
+
+}
+
+
+
+
+#controls{
+
+display:flex;
+
+align-items:center;
+
+justify-content:center;
+
+background:#0005;
+
+padding:10px 20px;
+
+border-radius:25px;
+
+margin-top:5px;
+
+}
+
+
+
+
+#powerBox{
+
+height:140px;
+
+width:32px;
+
+border:3px solid white;
+
+border-radius:20px;
+
+margin-left:15px;
+
+display:flex;
+
+align-items:flex-end;
+
+overflow:hidden;
+
+background:#111;
+
+box-shadow:0 0 15px black;
+
+}
+
+
+
+
+#power{
+
+width:100%;
+
+height:0%;
+
+background:
+
+linear-gradient(
+red,
+orange,
+yellow
+);
+
+transition:.2s;
+
+}
+
+
+
+
+
+#slider{
+
+width:280px;
+
+height:20px;
+
+accent-color:#ffe600;
+
+margin-top:10px;
+
+}
+
+
+
+
+
+#message{
+
+font-size:30px;
+
+font-weight:bold;
+
+height:45px;
+
+margin-top:5px;
+
+text-shadow:0 0 15px black;
+
+}
+
+
+
+
+.win{
+
+color:#00ff66;
+
+animation:pulse .5s infinite alternate;
+
+}
+
+
+
+
+.lose{
+
+color:#ff4444;
+
+}
+
+
+
+
+@keyframes pulse{
+
+from{
+
+transform:scale(1);
+
+}
+
+to{
+
+transform:scale(1.1);
+
+}
+
+}
+
+
+
+</style>
+</head>
+
+
+<body>
+
+<div id="game">
+
+<h1>⚽ PENALTY LEGENDS <i>by DJL</i></h1>
+
+<div id="score"></div>
+
+<div id="timer"></div>
+
+
+<div id="stadium">
+
+<div class="goal">
+<div class="net"></div>
+</div>
+
+<div id="keeper">🧤</div>
+
+<div id="ball">⚽</div>
+
+</div>
+
+
+<div id="message"></div>
+
+
+<button onclick="startKick()">
+⚽ SHOOT!
+</button>
+
+
+<div id="controls">
+
+<button onclick="chargePower()">
+🔥 POWER
+</button>
+
+<div id="powerBox">
+<div id="power"></div>
+</div>
+
+
+</div>
+
+
+<input id="slider" 
+type="range"
+min="-100"
+max="100"
+value="0">
+
+
+</div>
+
+<script>
+
+const nations=[
+"Brazil","Argentina","France",
+"England","Spain","Germany",
+"Italy","Portugal","Japan",
+"USA","Netherlands","Belgium"
+];
+
+
+let team1;
+let team2;
+let score1=0;
+let score2=0;
+let turn=0;
+let power=0;
+let active=false;
+let direction=null;
+let timerInterval;
+
+team1 = nations[Math.floor(Math.random()*nations.length)];
+
+team2 = nations[Math.floor(Math.random()*nations.length)];
+
+while(team2==team1){
+
+team2=nations[Math.floor(Math.random()*nations.length)];
+
+}
+
+function updateScore(){
+
+document.getElementById("score").innerHTML=
+team1+" "+score1+
+" - "+
+score2+" "+team2;
+
+}
+
+
+
+function startKick(){
+
+    if(active) return;
+
+    active = true;
+    direction = null;
+
+    document.getElementById("slider").value = 0;
+
+    let time = 3;
+
+    document.getElementById("message").innerHTML =
+    "DRAG DIRECTION!";
+
+    document.getElementById("timer").innerHTML = time;
+
+    timerInterval = setInterval(() => {
+
+        time--;
+
+        document.getElementById("timer").innerHTML = time;
+
+        if(time <= 0){
+
+            clearInterval(timerInterval);
+
+            if(direction == null){
+                direction = "center";
+            }
+
+            kick(direction);
+        }
+
+    }, 1000);
+}
+
+
+
+
+document.getElementById("slider").oninput=function(){
+
+
+if(!active)return;
+
+
+let value=parseInt(this.value);
+
+
+
+if(value<=-50){
+
+direction="left";
+
+}
+
+else if(value>=50){
+
+direction="right";
+
+}
+
+else{
+
+direction="center";
+
+}
+
+
+}
+
+
+
+
+function chargePower(){
+
+
+if(!active)return;
+
+
+if(power<5){
+
+power++;
+
+
+document.getElementById("power")
+.style.height=(power*20)+"%";
+
+
+}
+
+}
+
+
+
+
+
+function shoot(dir){
+
+
+if(!active)return;
+
+
+direction=dir;
+
+
+kick(dir);
+
+
+}
+
+
+
+
+
+
+function kick(dir){
+
+clearInterval(timerInterval);
+active=false;
+
+
+let ball=document.getElementById("ball");
+
+let keeper=document.getElementById("keeper");
+
+
+// SAVE POWER BEFORE RESET
+
+let shotPower=power;
+
+
+if(shotPower<1)
+
+shotPower=1;
+
+
+
+let keeperMove=Math.random();
+
+let saved=false;
+
+
+
+
+// FIXED BALL X POSITIONS
+
+if(dir=="left"){
+
+ball.style.left="60px";
+
+}
+
+else if(dir=="right"){
+
+ball.style.left="230px";
+
+}
+
+else{
+
+ball.style.left="145px";
+
+}
+
+
+
+
+// POWER HEIGHT
+
+let height;
+
+
+
+if(shotPower==1)
+
+height=65;
+
+else if(shotPower==2)
+
+height=80;
+
+else if(shotPower==3)
+
+height=95;
+
+else if(shotPower==4)
+
+height=110;
+
+else
+
+height=125;
+
+
+
+// NEVER ABOVE GOAL
+
+if(shotPower==5 && Math.random()<0.15){
+
+goalResult(false);
+
+reset();
+return;
+
+}
+
+
+
+ball.style.bottom=height+"px";
+
+
+
+
+
+// GOALKEEPER AI
+
+
+if(dir=="left" && keeperMove<0.45){
+
+keeper.style.left="65px";
+saved=true;
+
+}
+
+
+
+if(dir=="right" && keeperMove>0.55){
+
+keeper.style.left="205px";
+saved=true;
+
+}
+
+
+
+if(dir=="center" && keeperMove>0.45){
+
+keeper.style.left="145px";
+saved=true;
+
+}
+
+
+
+
+setTimeout(()=>{
+
+
+if(saved){
+
+
+goalResult(false);
+
+
+}
+
+else{
+
+
+goalResult(true);
+
+
+}
+
+
+
+reset();
+
+
+},700);
+
+
+
+}
+
+
+
+
+
+
+
+function goalResult(goal){
+
+
+
+if(goal){
+
+
+document.getElementById("message").innerHTML=
+"<span class='win'>GOOOOAL!!! 🔥⚽</span>";
+
+
+
+if(turn%2==0)
+
+score1++;
+
+else
+
+score2++;
+
+
+}
+
+
+else{
+
+
+document.getElementById("message").innerHTML=
+"<span class='lose'>SAVED UNFORTUNATELY 🧤</span>";
+
+
+}
+
+
+turn++;
+updateScore();
+if(turn>=5){
+
+if(score1 > score2 + (5-Math.ceil(turn/2))){
+
+alert(team1+" WINS 🏆");
+
+location.reload();
+
+}
+
+
+if(score2 > score1 + (5-Math.floor(turn/2))){
+
+alert(team2+" WINS 🏆");
+
+location.reload();
+
+}
+
+}
+
+
+
+
+
+if(turn>=10){
+
+
+setTimeout(()=>{
+
+
+if(score1>score2)
+
+alert(team1+" WINS 🏆");
+
+
+else if(score2>score1)
+
+alert(team2+" WINS 🏆");
+
+
+else{
+
+alert("SUDDEN DEATH! ⚡");
+
+turn=0;
+
+return;
+
+}
+
+location.reload();
+
+
+
+},1000);
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+function reset(){
+
+
+setTimeout(()=>{
+
+
+let ball=document.getElementById("ball");
+
+
+ball.style.left="145px";
+
+ball.style.bottom="20px";
+
+
+
+document.getElementById("keeper")
+.style.left="145px";
+
+
+
+// RESET SLIDER
+
+document.getElementById("slider").value=0;
+
+
+
+direction=null;
+
+
+
+power=0;
+
+
+document.getElementById("power")
+.style.height="0%";
+
+
+
+document.getElementById("timer")
+.innerHTML="";
+
+
+
+},800);
+
+
+}
+
+
+
+
+updateScore();
+
+
+</script>
+
+</body>
+</html>
