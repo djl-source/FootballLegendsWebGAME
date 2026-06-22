@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta charset="UTF-8">
 <title>Penalty Legends</title>
 
@@ -10,6 +12,13 @@
 box-sizing:border-box;
 }
 
+html,
+body,
+#game {
+    overflow: hidden;
+    touch-action: none;
+    -ms-touch-action: none;
+}
 
 body{
 
@@ -989,6 +998,27 @@ document.getElementById("timer")
 
 updateScore();
 
+let lastTouch = 0;
+
+document.addEventListener("touchstart", function(e) {
+
+    // Allow rapid taps on controls
+    if (
+        e.target.tagName === "BUTTON" ||
+        e.target.tagName === "INPUT"
+    ) {
+        return;
+    }
+
+    const now = Date.now();
+
+    if (now - lastTouch < 300) {
+        e.preventDefault();
+    }
+
+    lastTouch = now;
+
+}, { passive: false });
 
 </script>
 
